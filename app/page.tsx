@@ -1,69 +1,233 @@
-import Image from "next/image";
+import Link from "next/link";
+import Shot from "@/components/shot";
+import {
+  CV_PATH,
+  EMAIL,
+  experience,
+  facts,
+  projects,
+  skills,
+  stats,
+  totalRepos,
+} from "@/lib/data";
 
-export default function Home() {
+export default function Beranda() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
+    <>
+      {/* Hero: asymmetric 2fr/1fr split, facts card carries the scannable detail */}
+      <section
+        className="grid"
+        style={{ gridTemplateColumns: "var(--cols-21)", gap: "var(--gap)" }}
+      >
+        <div className="card rise min-w-0" style={{ padding: "var(--card-pad)" }}>
+          <p className="label">Terbuka untuk full-time dan freelance</p>
+          <h1 className="h1 mt-5">
+            Portofolio: {projects.length} proyek dari {totalRepos} repositori.
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+          <p className="mt-[18px] max-w-[60ch] text-secondary">
+            Mahasiswa tingkat akhir Teknik Informatika Universitas Indraprasta
+            PGRI. Saya mengerjakan Laravel dan Next.js untuk sisi produk, serta
+            computer vision, klasifikasi citra, dan clustering untuk sisi data.
+          </p>
+          <div className="mt-[26px] flex flex-wrap gap-2.5">
+            <Link href="/proyek" className="btn btn-primary">
+              Lihat 5 proyek
+            </Link>
+            <a href={CV_PATH} download className="btn btn-outline">
+              Unduh CV (PDF)
+            </a>
+          </div>
+        </div>
+
+        <div className="rise rise-2 min-w-0">
+          <dl className="card grid gap-3 p-[22px]">
+            {facts.map((f) => (
+              <div key={f.k} className="flex items-baseline justify-between gap-3.5">
+                <dt className="text-[13px] text-tertiary">{f.k}</dt>
+                <dd className="text-right text-[13px] font-medium">{f.v}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+
+      {/* Figures. Static by design: no count-up. */}
+      <section
+        className="grid"
+        style={{
+          marginTop: "var(--gap)",
+          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+          gap: "var(--gap)",
+        }}
+        aria-label="Ringkasan angka"
+      >
+        {stats.map((s) => (
+          <div key={s.label} className="card rise px-[22px] py-5">
+            <p className="num flex items-baseline gap-px">
+              <span className="h2" style={{ lineHeight: 1 }}>
+                {s.value}
+              </span>
+              {s.suffix && (
+                <span
+                  className="h2"
+                  style={{ lineHeight: 1, color: "var(--primary)" }}
+                >
+                  {s.suffix}
+                </span>
+              )}
+            </p>
+            <p className="mt-2 text-[13px] text-tertiary">{s.label}</p>
+          </div>
+        ))}
+      </section>
+
+      <section className="section">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h2 className="h2">Proyek terpilih</h2>
+            <p className="mt-2 text-tertiary">
+              Lima dari {totalRepos} repositori sudah didokumentasikan penuh;
+              sisanya menyusul.
+            </p>
+          </div>
+          <Link href="/proyek" className="btn btn-outline btn-sm">
+            Semua proyek →
+          </Link>
+        </div>
+
+        <div
+          className="mt-[22px] grid"
+          style={{
+            gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+            gap: "var(--gap)",
+          }}
+        >
+          {projects.map((p, i) => (
+            <article
+              key={p.slug}
+              className="card card-lift rise flex flex-col overflow-hidden"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+              <div style={{ borderBottom: "1px solid var(--border)" }}>
+                <Shot
+                  src={p.image}
+                  alt={p.shot}
+                  sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 400px"
+                  priority={i === 0}
+                />
+              </div>
+              <div className="grid flex-1 gap-3 px-[22px] pb-[22px] pt-5">
+                <div className="flex items-baseline justify-between gap-3">
+                  <span className="label">{p.kind}</span>
+                  <span className="meta">
+                    {p.num} · {p.year}
+                  </span>
+                </div>
+                <h3 className="h3">{p.title}</h3>
+                <p className="text-secondary">{p.blurb}</p>
+                <ul className="flex flex-wrap gap-1.5">
+                  {p.stack.map((t) => (
+                    <li key={t} className="chip">
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-auto flex flex-wrap items-center gap-2 pt-2">
+                  <Link
+                    href={`/proyek/${p.slug}`}
+                    className="btn btn-primary btn-sm"
+                    style={{ minHeight: 44 }}
+                  >
+                    Studi kasus<span className="sr-only">: {p.title}</span>
+                  </Link>
+                  {p.links.map((l) => (
+                    <a
+                      key={l.label}
+                      href={l.href}
+                      target="_blank"
+                      rel="noopener"
+                      className="btn btn-outline btn-sm"
+                      style={{ minHeight: 44 }}
+                    >
+                      {l.label} ↗<span className="sr-only"> {p.title}</span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section
+        className="section grid"
+        style={{ gridTemplateColumns: "var(--cols-12)", gap: "var(--gap)" }}
+      >
+        <div className="min-w-0">
+          <h2 className="h2">Kemampuan</h2>
+          <p className="mt-2.5 max-w-[36ch] text-tertiary">
+            Dikelompokkan seperti pada CV, dengan penekanan pada yang
+            benar-benar dipakai di proyek.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div className="grid min-w-0" style={{ gap: "var(--gap)" }}>
+          {skills.map((g) => (
+            <div key={g.label} className="card rise px-[22px] py-5">
+              <h3 className="label label-accent">{g.label}</h3>
+              <ul className="mt-3 flex flex-wrap gap-1.5">
+                {g.items.map((i) => (
+                  <li key={i} className="badge">
+                    {i}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
-      </main>
-    </div>
+      </section>
+
+      <section className="section">
+        <h2 className="h2 mb-[22px]">Pengalaman</h2>
+        <ol className="grid" style={{ gap: "var(--gap)" }}>
+          {experience.map((e) => (
+            <li
+              key={e.role}
+              className="card rise grid p-[22px]"
+              style={{
+                gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+                gap: "16px var(--gap)",
+              }}
+            >
+              <div>
+                <span className="pill num">{e.period}</span>
+                <h3 className="h3 mt-3">{e.role}</h3>
+                <p className="mt-1 text-[13px]" style={{ color: "var(--primary)" }}>
+                  {e.org}
+                </p>
+              </div>
+              <p className="min-w-0 text-secondary">{e.detail}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section
+        className="section flex flex-wrap items-center justify-between gap-5 rounded-[14px]"
+        style={{
+          border: "1px solid var(--border)",
+          background: "var(--surface)",
+          padding: "var(--card-pad)",
+        }}
+      >
+        <div>
+          <h2 className="h2">Kontak</h2>
+          <p className="mt-2 text-secondary">
+            {EMAIL} · github.com/Raidzr28
+          </p>
+        </div>
+        <Link href="/kontak" className="btn btn-primary btn-lg">
+          Hubungi saya
+        </Link>
+      </section>
+    </>
   );
 }

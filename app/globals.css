@@ -1,26 +1,452 @@
 @import "tailwindcss";
 
+/* ── Tokens ───────────────────────────────────────────────────────────────
+   Values are final per design_handoff_portfolio/brand-guidelines.md.
+   Light is the base; dark overrides only what changes.                      */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --primary: #0f766e;
+  --primary-hover: #0b5d57;
+  --primary-soft: rgb(15 118 110 / 0.1);
+  --primary-text: #0b5d57;
+
+  --bg: #fafafa;
+  --bg-trans: rgb(250 250 250 / 0.82);
+  --card: #ffffff;
+  --surface: #f4f4f5;
+  --muted: #f1f1f2;
+
+  --fg: #18181b;
+  --fg-secondary: #52525b;
+  --fg-tertiary: #71717a;
+
+  --border: #e4e4e7;
+  --border-strong: #d4d4d8;
+
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+  --shadow-lg: 0 12px 32px rgb(0 0 0 / 0.09);
+
+  /* scale — lapang */
+  --h1: 54px;
+  --h2: 32px;
+  --h3: 19px;
+  --lead: 18px;
+  --body: 15px;
+  --gutter: 28px;
+  --gap: 20px;
+  --section: 60px;
+  --pad-top: 48px;
+  --card-pad: 34px;
+
+  /* explicit two-column tracks, per brand rule 5 */
+  --cols-21: minmax(0, 2fr) minmax(0, 1fr);
+  --cols-12: minmax(0, 1fr) minmax(0, 2fr);
+  --cols-row: minmax(0, 300px) minmax(0, 1fr);
+  --cols-case: minmax(0, 280px) minmax(0, 1fr);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+[data-theme="dark"] {
+  --primary-hover: #14887e;
+  --primary-soft: rgb(15 118 110 / 0.18);
+  --primary-text: #5ec8bd;
+
+  --bg: #0c0c0d;
+  --bg-trans: rgb(12 12 13 / 0.82);
+  --card: #141416;
+  --surface: #17171a;
+  --muted: #1d1d20;
+
+  --fg: #fafafa;
+  --fg-secondary: #a1a1aa;
+  --fg-tertiary: #8b8b93;
+
+  --border: #27272a;
+  --border-strong: #3a3a3f;
+
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-lg: 0 14px 36px rgb(0 0 0 / 0.55);
 }
 
-@media (prefers-color-scheme: dark) {
+@media (max-width: 767px) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --h1: 32px;
+    --h2: 23px;
+    --h3: 17px;
+    --lead: 16px;
+    --body: 14px;
+    --gutter: 16px;
+    --gap: 14px;
+    --section: 38px;
+    --pad-top: 26px;
+    --card-pad: 20px;
+
+    --cols-21: minmax(0, 1fr);
+    --cols-12: minmax(0, 1fr);
+    --cols-row: minmax(0, 1fr);
+    --cols-case: minmax(0, 1fr);
   }
 }
 
+@theme inline {
+  --color-bg: var(--bg);
+  --color-card: var(--card);
+  --color-surface: var(--surface);
+  --color-muted: var(--muted);
+  --color-fg: var(--fg);
+  --color-secondary: var(--fg-secondary);
+  --color-tertiary: var(--fg-tertiary);
+  --color-primary: var(--primary);
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+  --font-sans: var(--font-archivo), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+}
+
+/* ── Base ─────────────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  color-scheme: light;
+}
+[data-theme="dark"] {
+  color-scheme: dark;
+}
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-archivo), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: var(--body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+::selection {
+  background: var(--primary);
+  color: #fff;
+}
+:where(h1, h2, h3) {
+  text-wrap: balance;
+}
+:where(p) {
+  text-wrap: pretty;
+}
+
+/* Focus ring is never removed (brand rule 5). */
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@layer components {
+  /* ── Layout ─────────────────────────────────────────────────────────── */
+  .shell {
+    max-width: 1240px;
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+  .section {
+    margin-top: var(--section);
+  }
+
+  /* ── Surfaces ───────────────────────────────────────────────────────── */
+  .card {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--card);
+    box-shadow: var(--shadow);
+  }
+  .card-lift {
+    transition:
+      box-shadow 0.3s ease,
+      transform 0.3s ease,
+      border-color 0.3s ease;
+  }
+  .card-lift:hover {
+    box-shadow: var(--shadow-lg);
+    border-color: var(--border-strong);
+    transform: translateY(-3px);
+  }
+  .card-lift:has(a:focus-visible),
+  .card-lift:has(button:focus-visible) {
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow-lg);
+  }
+  /* Wide rows highlight without translating: a full-width card that shifts
+     under the cursor reads as a glitch, not as feedback. */
+  .card-hi {
+    transition:
+      box-shadow 0.3s ease,
+      border-color 0.3s ease;
+  }
+  .card-hi:hover,
+  .card-hi:has(a:focus-visible) {
+    box-shadow: var(--shadow-lg);
+    border-color: var(--border-strong);
+  }
+
+  /* ── Type ───────────────────────────────────────────────────────────── */
+  .h1 {
+    font-size: var(--h1);
+    line-height: 1.04;
+    font-weight: 600;
+    letter-spacing: -0.035em;
+  }
+  .h2 {
+    font-size: var(--h2);
+    line-height: 1.15;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+  }
+  .h3 {
+    font-size: var(--h3);
+    line-height: 1.25;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .lead {
+    font-size: var(--lead);
+    color: var(--fg-secondary);
+  }
+  /* The one mono label style. Always 11px / .12em / uppercase / tertiary. */
+  .label {
+    font-family: var(--font-plex-mono), ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-tertiary);
+  }
+  .label-accent {
+    color: var(--primary);
+  }
+  .meta {
+    font-family: var(--font-plex-mono), ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--fg-tertiary);
+    font-variant-numeric: tabular-nums;
+  }
+  .num {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Controls ───────────────────────────────────────────────────────── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding-inline: 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease,
+      transform 0.15s ease;
+  }
+  .btn:active {
+    transform: translateY(1px);
+  }
+  .btn-sm {
+    min-height: 40px;
+    padding-inline: 14px;
+    font-size: 13px;
+  }
+  .btn-lg {
+    min-height: 48px;
+    padding-inline: 24px;
+  }
+  .btn-primary {
+    background: var(--primary);
+    color: #fff;
+  }
+  .btn-primary:hover {
+    background: var(--primary-hover);
+    color: #fff;
+    transform: translateY(-1px);
+  }
+  .btn-primary:active {
+    transform: translateY(1px);
+  }
+  .btn-outline {
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--fg);
+  }
+  .btn-outline:hover {
+    background: var(--muted);
+    border-color: var(--border-strong);
+    color: var(--fg);
+  }
+  .btn-ghost {
+    color: var(--fg-secondary);
+    padding-inline: 16px;
+  }
+  .btn-ghost:hover {
+    background: var(--muted);
+    color: var(--fg);
+  }
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 9px;
+    border-radius: 8px;
+    background: var(--muted);
+    border: 1px solid var(--border);
+    font-family: var(--font-plex-mono), ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--fg-secondary);
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 8px;
+    background: var(--muted);
+    border: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--fg-secondary);
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--muted);
+    border: 1px solid var(--border);
+    font-family: var(--font-plex-mono), ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--fg-secondary);
+  }
+
+  .repo-slot {
+    transition:
+      border-color 0.2s ease,
+      background-color 0.2s ease;
+  }
+  .repo-slot:hover {
+    border-color: var(--primary);
+    background: var(--card);
+  }
+
+  .field {
+    min-height: 44px;
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--fg);
+    font: inherit;
+    outline: none;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  .field::placeholder {
+    color: var(--fg-tertiary);
+  }
+  .field:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-soft);
+  }
+  /* Native constraint validation carries the error state. No JS validator. */
+  .field:user-invalid {
+    border-color: #b91c1c;
+  }
+  [data-theme="dark"] .field:user-invalid {
+    border-color: #f87171;
+  }
+  .field-error {
+    display: none;
+    font-size: 13px;
+    color: #b91c1c;
+  }
+  [data-theme="dark"] .field-error {
+    color: #f87171;
+  }
+  .field:user-invalid ~ .field-error {
+    display: block;
+  }
+}
+
+/* ── Motion ───────────────────────────────────────────────────────────── */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.rise {
+  animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.rise-2 {
+  animation-delay: 60ms;
+}
+
+/* Scroll progress + header elevation, driven by the scroll timeline.
+   No scroll listener, no state, no re-render. Browsers without
+   scroll-driven animation get a static bar and a flat header.
+   ponytail: CSS-only; revisit only if the bar must track a nested scroller. */
+@keyframes progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes lift {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.site-header::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  box-shadow: 0 1px 16px rgb(0 0 0 / 0.08);
+}
+[data-theme="dark"] .site-header::after {
+  box-shadow: 0 1px 16px rgb(0 0 0 / 0.5);
+}
+@supports (animation-timeline: scroll()) {
+  .scroll-progress {
+    animation: progress linear;
+    animation-timeline: scroll();
+  }
+  .site-header::after {
+    animation: lift linear;
+    animation-timeline: scroll();
+    animation-range: 0 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
 }

@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portofolio Rizky Ardiansyah
 
-## Getting Started
-
-First, run the development server:
+Next.js 16 (App Router) + Tailwind v4. Built from `../design_handoff_portfolio`.
+Static content, no database, no API keys.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev     # http://localhost:3000
+npm run build
+npm test        # mailto composer self-check
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Where things live
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| What | File |
+|---|---|
+| All copy, projects, skills, experience | `lib/data.ts` |
+| Colours, type scale, spacing, primitives | `app/globals.css` |
+| Header, theme toggle, scroll bar | `components/site-header.tsx` |
+| Screenshot slots | `components/shot.tsx` |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Routes
 
-## Learn More
+`/` · `/proyek` (filter via `?kind=`) · `/proyek/[slug]` · `/tentang` · `/kontak`
 
-To learn more about Next.js, take a look at the following resources:
+## Images to supply
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Every slot currently renders as a labelled dashed placeholder. Drop a file into
+`public/` and set `image` on the matching project in `lib/data.ts`:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- 5 project screenshots, 16:10 or wider (the case-study hero crops to 16:9)
+- 1 portrait photo, 3:4, wired in `app/tentang/page.tsx`
 
-## Deploy on Vercel
+The dashed cards on `/proyek` are the 21 public repositories without a case
+study. They carry real names and real links; only the write-up is missing.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Repo counts
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`otherRepos` in `lib/data.ts` was verified against the GitHub API on
+2026-08-23. Every count on the site derives from it, so adding a case study or
+a repo updates the headline, the stat tiles and the section copy together. When
+you push a new public repo, add a line to that array.
+
+## Still to wire
+
+- `metadataBase` in `app/layout.tsx` is a placeholder domain. Set the real one.
+- The contact form opens the visitor's mail client. Swap the submit handler in
+  `components/contact-form.tsx` for a Server Action if submissions need to land
+  in an inbox you can query.
