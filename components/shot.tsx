@@ -8,6 +8,13 @@ type Props = {
   sizes: string;
   priority?: boolean;
   radius?: number;
+  /**
+   * Screenshots are wider than every slot in the design, and cover would crop
+   * into the page they are meant to show. Contain mats them on the muted
+   * surface instead: the same background the empty slot already uses, so a
+   * filled card and an empty one sit in one visual system.
+   */
+  fit?: "cover" | "contain";
 };
 
 /**
@@ -23,6 +30,7 @@ export default function Shot({
   sizes,
   priority = false,
   radius,
+  fit = "cover",
 }: Props) {
   return (
     <div
@@ -40,7 +48,7 @@ export default function Shot({
           fill
           sizes={sizes}
           priority={priority}
-          className="object-cover"
+          className={fit === "contain" ? "object-contain" : "object-cover"}
         />
       ) : (
         <span

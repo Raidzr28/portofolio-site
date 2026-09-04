@@ -73,12 +73,65 @@ export default async function StudiKasus({ params }: Params) {
       >
         <Shot
           src={p.image}
+          fit="contain"
           alt={p.shot}
           ratio="16 / 9"
           sizes="(max-width: 1279px) 100vw, 1240px"
           priority
         />
       </section>
+
+      {p.gallery && p.gallery.length > 0 && (
+        <section className="mt-[18px]">
+          <p className="label mb-2.5">Tampilan aplikasi</p>
+          <div
+            className="flex gap-3 overflow-x-auto pb-1"
+            style={{ scrollbarWidth: "thin" }}
+          >
+            {p.gallery.map((g) => (
+              <div
+                key={g.src}
+                className="h-[300px] shrink-0 overflow-hidden rounded-[12px] sm:h-[380px]"
+                style={{ border: "1px solid var(--border)", aspectRatio: g.ratio }}
+              >
+                <Shot
+                  src={g.src}
+                  fit="contain"
+                  alt={g.alt}
+                  ratio={g.ratio}
+                  sizes="800px"
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {p.mobileShots && p.mobileShots.length > 0 && (
+        <section className="mt-[18px]">
+          <p className="label mb-2.5">Tampilan mobile</p>
+          <div
+            className="flex gap-3 overflow-x-auto pb-1"
+            style={{ scrollbarWidth: "thin" }}
+          >
+            {p.mobileShots.map((shot) => (
+              <div
+                key={shot.src}
+                className="w-[150px] shrink-0 overflow-hidden rounded-[12px]"
+                style={{ border: "1px solid var(--border)" }}
+              >
+                <Shot
+                  src={shot.src}
+                  fit="contain"
+                  alt={shot.alt}
+                  ratio="9 / 16"
+                  sizes="150px"
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       <section
         className="section grid items-start"

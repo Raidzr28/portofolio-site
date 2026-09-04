@@ -15,6 +15,10 @@ export type Project = {
   shot: string;
   /** Path under /public once a real screenshot exists. null = slot is empty. */
   image: string | null;
+  /** Optional phone screenshots, shown as a scrollable strip when present. */
+  mobileShots?: { src: string; alt: string }[];
+  /** Optional extra desktop screenshots, stacked full-width below the hero. */
+  gallery?: { src: string; alt: string; ratio: string }[];
   blurb: string;
   stack: string[];
   links: Link[];
@@ -32,8 +36,19 @@ export const projects: Project[] = [
     title: "ShannaMakeup Booking Platform",
     year: "2025",
     kind: "Full-stack web app",
-    shot: "Dashboard pemesanan ShannaMakeup",
-    image: null,
+    shot: "Beranda ShannaMakeup: tombol pemesanan dan ringkasan statistik pelanggan",
+    image: "/proyek/shannamakeup.png",
+    mobileShots: [
+      { src: "/proyek/shannamakeup-mobile.jpeg", alt: "Beranda mobile ShannaMakeup" },
+      { src: "/proyek/shannamakeup/01-pilih-paket.jpeg", alt: "Pilih paket booking" },
+      { src: "/proyek/shannamakeup/02-tanggal-lokasi.jpeg", alt: "Pilih tanggal, jam, dan lokasi" },
+      { src: "/proyek/shannamakeup/03-tambahan.jpeg", alt: "Pilih layanan tambahan" },
+      { src: "/proyek/shannamakeup/04-detail-kontak.jpeg", alt: "Formulir detail kontak" },
+      { src: "/proyek/shannamakeup/05-konfirmasi.jpeg", alt: "Ringkasan pesanan sebelum dikirim" },
+      { src: "/proyek/shannamakeup/06-status-pesanan.jpeg", alt: "Status pesanan setelah dikirim" },
+      { src: "/proyek/shannamakeup/07-looks.jpeg", alt: "Feed Looks dari studio dan klien" },
+      { src: "/proyek/shannamakeup/08-asisten-ai.jpeg", alt: "Asisten AI menjawab pertanyaan booking" },
+    ],
     blurb:
       "Sistem pemesanan penuh untuk usaha jasa makeup: login Google, pengelolaan jadwal, dan panel admin.",
     stack: ["Next.js", "Prisma", "Neon DB", "Google OAuth", "Vercel"],
@@ -69,11 +84,46 @@ export const projects: Project[] = [
     year: "2025",
     kind: "Machine learning",
     shot: "Tabel hasil klasifikasi sentimen",
-    image: null,
+    image: "/proyek/sentifood.png",
+    gallery: [
+      {
+        src: "/proyek/sentifood/dataset.jpeg",
+        alt: "Tabel dataset ulasan GoFood dengan rating dan label kelas",
+        ratio: "1234 / 1223",
+      },
+      {
+        src: "/proyek/sentifood/distribusi-rating.jpeg",
+        alt: "Distribusi rating bintang sebagai sumber label sentimen",
+        ratio: "1349 / 395",
+      },
+      {
+        src: "/proyek/sentifood/prediksi-teks.jpeg",
+        alt: "Prediksi satu teks ulasan dengan rincian log-probabilitas per kata",
+        ratio: "1234 / 1075",
+      },
+      {
+        src: "/proyek/sentifood/prediksi-terakhir.png",
+        alt: "Daftar prediksi terakhir dengan skor positif, netral, dan negatif",
+        ratio: "1359 / 477",
+      },
+      {
+        src: "/proyek/sentifood/evaluasi-model.jpeg",
+        alt: "Evaluasi model: akurasi 62,89% dan metrik precision, recall, F1 per kelas",
+        ratio: "1350 / 1116",
+      },
+      {
+        src: "/proyek/sentifood/historis.jpeg",
+        alt: "Halaman historis prediksi yang tersimpan",
+        ratio: "1350 / 497",
+      },
+    ],
     blurb:
       "Pengklasifikasi sentimen Multinomial Naive Bayes yang dibangun dari nol di PHP, dengan pra-pemrosesan teks bahasa Indonesia.",
     stack: ["PHP native", "Naive Bayes", "MySQL"],
-    links: [{ label: "Repo", href: repo("sentiment-analysis-on-Gofood-using-naive-bayes") }],
+    links: [
+      { label: "Demo", href: "https://analysis-sentiment-gofood.vercel.app" },
+      { label: "Repo", href: repo("sentiment-analysis-on-Gofood-using-naive-bayes") },
+    ],
     meta: [
       { k: "Peran", v: "Developer" },
       { k: "Metode", v: "Multinomial Naive Bayes (from scratch)" },
@@ -102,7 +152,7 @@ export const projects: Project[] = [
     year: "2025",
     kind: "Computer vision",
     shot: "Antarmuka Flask menampilkan hasil prediksi",
-    image: null,
+    image: "/proyek/cassava-scan.png",
     blurb:
       "Aplikasi web klasifikasi citra berbasis SVM dengan 65 fitur rekayasa (GLCM, HSV, LBP), akurasi 70,5% setelah grid search.",
     stack: ["Python", "scikit-learn", "SVM", "Flask"],
@@ -135,7 +185,7 @@ export const projects: Project[] = [
     year: "2024",
     kind: "Data / clustering",
     shot: "Dashboard Streamlit hasil segmentasi",
-    image: null,
+    image: "/proyek/customer-segmentation.png",
     blurb:
       "Alat clustering yang mengelompokkan pelanggan berdasarkan perilaku transaksi untuk penargetan promosi.",
     stack: ["Python", "Streamlit", "K-Means"],
@@ -167,12 +217,37 @@ export const projects: Project[] = [
     title: "ScanBook, pemindai dokumen berbasis YOLOv8-seg",
     year: "2024",
     kind: "Computer vision",
-    shot: "Deteksi tepi dokumen dan hasil crop",
-    image: null,
+    shot: "Beranda ScanBook: alur foto buku menjadi hasil pindai yang rata",
+    image: "/proyek/scanbook.png",
+    gallery: [
+      {
+        src: "/proyek/scanbook/proses.png",
+        alt: "Langkah unggah foto halaman buku",
+        ratio: "1359 / 623",
+      },
+      {
+        src: "/proyek/scanbook/deteksi-sudut.jpeg",
+        alt: "Deteksi keempat sudut halaman dengan titik yang bisa digeser sebelum koreksi",
+        ratio: "1234 / 1980",
+      },
+      {
+        src: "/proyek/scanbook/hasil-scan.jpeg",
+        alt: "Hasil pindai setelah koreksi perspektif dan pengaturan warna hitam-putih",
+        ratio: "1234 / 1544",
+      },
+      {
+        src: "/proyek/scanbook/riwayat.jpeg",
+        alt: "Riwayat pindai dengan opsi unduh ulang dan hapus",
+        ratio: "1234 / 614",
+      },
+    ],
     blurb:
       "Alat computer vision untuk deteksi tepi dokumen otomatis dan pemotongan hasil pindai.",
-    stack: ["Python", "OpenCV", "YOLOv8n-seg"],
-    links: [{ label: "Repo", href: repo("Scanner-Berbasis-Yolo") }],
+    stack: ["Python", "Flask", "OpenCV", "YOLOv8n-seg"],
+    links: [
+      { label: "Demo", href: "https://scanner-berbasis-yolo-production.up.railway.app/" },
+      { label: "Repo", href: repo("Scanner-Berbasis-Yolo") },
+    ],
     meta: [
       { k: "Peran", v: "ML engineer" },
       { k: "Model", v: "YOLOv8n-seg" },
@@ -298,8 +373,8 @@ export const contactLinks = [
   { label: "Email", value: EMAIL, href: `mailto:${EMAIL}`, external: false },
   {
     label: "LinkedIn",
-    value: "linkedin.com/in/rizkyardiansyah",
-    href: "https://linkedin.com/in/rizkyardiansyah",
+    value: "linkedin.com/in/rizky-ardiansyah-833a31354",
+    href: "https://www.linkedin.com/in/rizky-ardiansyah-833a31354/",
     external: true,
   },
   { label: "GitHub", value: "github.com/Raidzr28", href: GITHUB, external: true },

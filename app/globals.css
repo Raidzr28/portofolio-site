@@ -129,10 +129,12 @@ body {
 }
 
 /* Focus ring is never removed (brand rule 5). */
+/* Unlayered on purpose: it must outrank every component rule. It must not
+   set border-radius, though: that wins over .btn/.field too and squares the
+   control off mid-focus. Outlines already follow the element's own radius. */
 :where(a, button, input, textarea, select, [tabindex]):focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 3px;
-  border-radius: 4px;
 }
 
 @layer components {

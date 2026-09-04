@@ -41,7 +41,7 @@ function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-pressed={dark ?? false}
-      aria-label={dark ? "Ganti ke mode terang" : "Ganti ke mode gelap"}
+      aria-label={`Tema ${dark ? "Gelap" : "Terang"}, ganti`}
       className="btn btn-outline btn-sm"
       style={{ minHeight: 40 }}
     >

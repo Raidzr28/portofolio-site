@@ -94,6 +94,7 @@ export default async function Proyek({
             >
               <Shot
                 src={p.image}
+                fit="contain"
                 alt={p.shot}
                 sizes="(max-width: 767px) 100vw, 300px"
                 priority={i === 0}

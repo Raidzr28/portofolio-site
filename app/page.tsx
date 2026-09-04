@@ -36,6 +36,9 @@ export default function Beranda() {
             <a href={CV_PATH} download className="btn btn-outline">
               Unduh CV (PDF)
             </a>
+            <Link href="/kontak" className="btn btn-ghost">
+              Kontak →
+            </Link>
           </div>
         </div>
 
@@ -110,6 +113,7 @@ export default function Beranda() {
               <div style={{ borderBottom: "1px solid var(--border)" }}>
                 <Shot
                   src={p.image}
+                  fit="contain"
                   alt={p.shot}
                   sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 400px"
                   priority={i === 0}
