@@ -355,7 +355,7 @@ export const experience = [
 export const education = [
   {
     period: "AGU 2022 - 2026",
-    degree: "Bachelor of Science, Teknik Informatika",
+    degree: "Bachelor of Engineering, Teknik Informatika",
     school: "Universitas Indraprasta PGRI (Unindra), Jakarta",
     note: "Skripsi: Customer Segmentation Using K-Means Clustering for Marketing Strategy in Online Marketplace Transactions. A Case Study of a Thai Marketplace.",
   },
