@@ -153,10 +153,30 @@ export const projects: Project[] = [
     kind: "Computer vision",
     shot: "Antarmuka Flask menampilkan hasil prediksi",
     image: "/proyek/cassava-scan.png",
+    gallery: [
+      {
+        src: "/proyek/cassava/diagnosis.jpeg",
+        alt: "Hasil diagnosis satu daun: kelas Healthy dengan keyakinan 72,75%, nilai fitur GLCM dan HSV, serta sebaran probabilitas lima kelas",
+        ratio: "1400 / 1656",
+      },
+      {
+        src: "/proyek/cassava/metode.jpeg",
+        alt: "Halaman Metode: tiga tahap pra-pemrosesan, ekstraksi GLCM, dan klasifikasi SVM beserta karakteristik tiap kelas",
+        ratio: "1400 / 1655",
+      },
+      {
+        src: "/proyek/cassava/evaluasi.jpeg",
+        alt: "Halaman pelatihan: akurasi 70,5%, precision 67,3%, recall 70,5%, F1 67,54%, dan confusion matrix lima kelas",
+        ratio: "1400 / 1193",
+      },
+    ],
     blurb:
       "Aplikasi web klasifikasi citra berbasis SVM dengan 65 fitur rekayasa (GLCM, HSV, LBP), akurasi 70,5% setelah grid search.",
     stack: ["Python", "scikit-learn", "SVM", "Flask"],
-    links: [{ label: "Repo", href: repo("disease-recognition-for-cassava-leaves-using-SVM") }],
+    links: [
+      { label: "Demo", href: "https://web-production-d3bbc.up.railway.app/" },
+      { label: "Repo", href: repo("disease-recognition-for-cassava-leaves-using-SVM") },
+    ],
     meta: [
       { k: "Peran", v: "ML engineer" },
       { k: "Model", v: "Support Vector Machine" },
